@@ -8,6 +8,8 @@ class Chat {
         StreamerBotClient.on("Twitch.ChatMessage", (data) => this.chatMessage(data));
         StreamerBotClient.on("Twitch.ChatMessageDeleted", (data) => this.chatMessageDeleted(data));
         StreamerBotClient.on("Twitch.ChatCleared", (data) => this.chatCleared(data));
+        StreamerBotClient.on("Twitch.UserTimedOut", (data) => this.userTimedOut(data));
+        StreamerBotClient.on("Twitch.UserBanned", (data) => this.userBanned(data));
     }
 
     chatMessage(data) {
@@ -107,5 +109,27 @@ class Chat {
 
         console.log("Clearing ChatContainer");
         this.ChatContainer.innerHTML = "";
+    }
+
+    userTimedOut(data) {
+        console.log("User Timed Out:");
+        console.log(JSON.stringify(data, null, 2));
+
+        // Find all elements with the data-username attribute equal to the username of the user that was timed out
+        let messages = document.querySelectorAll("[data-userId='" + data.target_user_id + "']");
+        messages.forEach(message => {
+            message.remove();
+        });
+    }
+
+    userBanned(data) {
+        console.log("User Banned:");
+        console.log(JSON.stringify(data, null, 2));
+
+        // Find all elements with the data-username attribute equal to the username of the user that was banned
+        let messages = document.querySelectorAll("[data-userId='" + data.target_user_id + "']");
+        messages.forEach(message => {
+            message.remove();
+        });
     }
 }

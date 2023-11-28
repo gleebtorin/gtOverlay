@@ -1,0 +1,98 @@
+body {
+    background-color: var(--brand-primary-darkest);
+    color: var(--brand-primary-lightest);
+    font-family: var(--brand-fonts);
+    padding: 0;
+    margin: 0;
+}
+
+#alerts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+@keyframes alertAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }    
+}
+
+@keyframes alertDisappear {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        text-shadow: 0 0 1em var(--brand-secondary-full);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.9);
+        text-shadow: 0 0 0em var(--brand-secondary-full);
+    }    
+    
+}
+
+@keyframes alertHeadline {
+    0% {
+        text-shadow:
+            0 0 1em var(--brand-secondary-full),
+            -6px -3px 0 hsla(330, 100%, 50%, 0.0),
+            6px 3px 0 hsla(90, 100%, 50%, 0.0);
+    }
+
+    50% {
+        text-shadow:
+            0 0 1em var(--brand-secondary-full),
+            0px -3px 1em var(--brand-vip-full),
+            0px 3px 1em var(--brand-moderation-full);
+    }
+
+    100% {
+        text-shadow:
+            0 0 1em var(--brand-secondary-full),
+            6px -3px 0 hsla(330, 100%, 50%, 0.0),
+            -6px 3px 0 hsla(90, 100%, 50%, 0.0);
+    }
+}
+
+.alert {
+    background: radial-gradient(circle, var(--brand-primary-light) 0%, var(--brand-primary-mid) 50%, var(--brand-primary-darkest) 100%);
+    border-radius: 10px;
+    border: 0px;
+    color: var(--brand-primary-lightest);
+    width: auto;
+    margin: auto;
+    text-align: center;
+    text-shadow: 2px 2px 1px var(--brand-primary-darkest);
+    animation: alertAppear 1s ease-in-out, alertHeadline 4s ease-in-out forwards;
+}
+
+.alertFadeOut {
+    animation: alertDisappear 1s ease-in-out forwards;
+}
+
+.alert h1 {
+    font-size: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.alert p {
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.alert.alert-follow h1 {
+    font-size: 1rem !important;
+}
+
+.alert.alert-follow p {
+    font-size: 0.75rem !important;
+}

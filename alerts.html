@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Twitch Alerts</title>
+    <script src="./js/StreamerBotClient.js"></script>
+    <script src="./js/Alerts.js"></script>
+    <script src="./js/Alerts_Tests.js"></script>
+
+    <script>
+        let alerts = null;
+        // Connect for alerts on page loaded
+        window.onload = function() {
+            events = {
+                "Twitch": [
+                    "Follow",
+                    "Cheer",
+                    "Raid",
+                    "Sub",
+                    "Resub",
+                    "GiftSub",
+                    "GiftBomb",
+                ]
+            };
+            StreamerBotClient = new StreamerBotClient(events);
+            alerts = new Alerts(StreamerBotClient);
+            // If the userAgent contains "OBS", we're probably in OBS. Hide the debug info
+            if (navigator.userAgent.indexOf("OBS") !== -1) {
+                document.getElementById("debug").style.display = "none";
+            }
+        };
+    </script>
+    <link rel="stylesheet" href="./css/brand.css">
+    <link rel="stylesheet" href="./css/alerts.css">
+
+</head>
+<body>
+    <!-- Debug Display -->
+    <div id="debug" style="position: absolute; bottom: 0; right: 0; color: white; text-align: right; font-family: monospace;">
+        <button onclick="testFollowAlert()">Test Follow</button><br>
+        <button onclick="testCheerAlert()">Test Cheer</button><br>
+        <button onclick="testRaidAlert()">Test Raid</button><br>
+        <button onclick="testSubAlert()">Test Sub</button><br>
+        <button onclick="testResubAlert()">Test Resub</button><br>
+        <button onclick="testGiftSubAlert()">Test Gift Sub</button><br>
+        <button onclick="testGiftBombAlert()">Test Gift Bomb</button><br>
+    </div>
+    <div id="alerts">
+    </div>
+</body>
+</html>

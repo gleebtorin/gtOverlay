@@ -9,8 +9,8 @@ class Chat {
     }
 
     chatMessage(data) {
-        console.log("Chat Message:");
-        console.log(JSON.stringify(data, null, 2));
+        //console.log("Chat Message:");
+        //console.log(JSON.stringify(data, null, 2));
 
         let messageElement = document.createElement("div");
         // Construct the message for display
@@ -44,38 +44,7 @@ class Chat {
         messageElement.appendChild(username);
         messageElement.innerHTML += ": ";
 
-        let message = data.message.message;
-        let emotes = data.message.emotes;
-
-        // Split the message into an array, based on emotes.startIndex and emotes.endIndex
-
-        // Sort the emotes array by startIndex
-        emotes.sort((a, b) => {
-            return a.startIndex - b.startIndex;
-        });
-
-        let splitMessage = [];
-        let lastIndex = 0;
-        emotes.forEach(emote => {
-            splitMessage.push(message.slice(lastIndex, emote.startIndex)); // Add the part of the message before the emote
-            lastIndex = emote.endIndex + 1;
-        });
-        splitMessage.push(message.slice(lastIndex)); // Add the last part of the message
-
-        console.log(splitMessage);
-
-        // Loop through the splitMessage array and append each part to the messageElement, followed by the emote image
-        splitMessage.forEach((part, index) => {
-            messageElement.innerHTML += part;
-            if (emotes[index]) {
-                let img = document.createElement("img");
-                let imageUrl = emotes[index].imageUrl.slice(0, -3) + "1.0";
-                img.src = imageUrl;
-                img.title = emotes[index].name;
-                img.classList.add("emote");
-                messageElement.appendChild(img);
-            }
-        });
+        messageElement.appendChild(this.StreamerBotClient.parseMessageInData(data));
 
         messageElement.id = data.message.msgId;
 

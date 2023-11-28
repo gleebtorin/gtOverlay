@@ -22,7 +22,7 @@ body {
     padding: 2px;
     color: white;
     font-size: 18px;
-    font-family: "Lemon MILK Pro Regular", Arial, Helvetica, sans-serif;
+    font-family: var(--brand-fonts);
     text-shadow: 1px 1px black;
     vertical-align: middle;
 }

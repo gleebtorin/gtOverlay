@@ -86,4 +86,52 @@ class StreamerBotClient {
             });
         }
     }
+
+    parseMessage(message, emotes) {
+        // Split the message into an array, based on emotes.startIndex and emotes.endIndex
+
+        // Sort the emotes array by startIndex
+        emotes.sort((a, b) => {
+            return a.startIndex - b.startIndex;
+        });
+
+        let splitMessage = [];
+        let lastIndex = 0;
+        emotes.forEach(emote => {
+            splitMessage.push(message.slice(lastIndex, emote.startIndex)); // Add the part of the message before the emote
+            lastIndex = emote.endIndex + 1;
+            if (emote.type == "CheerEmote") {
+                let cheerAmountText = document.createElement("span");
+                cheerAmountText.innerText = emote.bits;
+                cheerAmountText.style.color = emote.color;
+                splitMessage.push(emote.bits); // Add the emote bits
+            }
+
+        });
+        splitMessage.push(message.slice(lastIndex)); // Add the last part of the message
+
+        let outputMessage = document.createElement("span");
+
+        // Loop through the splitMessage array and append each part to the messageElement, followed by the emote image
+        splitMessage.forEach((part, index) => {
+            outputMessage.innerHTML += part;
+            if (emotes[index]) {
+                let img = document.createElement("img");
+                let imageUrl = emotes[index].imageUrl.slice(0, -3) + "1.0";
+                img.src = imageUrl;
+                img.title = emotes[index].name;
+                img.classList.add("emote");
+                outputMessage.appendChild(img);
+            }
+        });
+
+        return outputMessage;
+    }
+
+    parseMessageInData(data) {
+        let message = data.message.message;
+        let emotes = data.message.emotes.concat(data.message.cheerEmotes); // Combine emotes and cheerEmotes
+        return this.parseMessage(message, emotes);
+    }
+
 }

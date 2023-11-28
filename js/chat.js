@@ -6,6 +6,8 @@ class Chat {
         this.StreamerBotClient = StreamerBotClient;
         this.ChatContainer = ChatContainer;
         StreamerBotClient.on("Twitch.ChatMessage", (data) => this.chatMessage(data));
+        StreamerBotClient.on("Twitch.ChatMessageDeleted", (data) => this.chatMessageDeleted(data));
+        StreamerBotClient.on("Twitch.ChatCleared", (data) => this.chatCleared(data));
     }
 
     chatMessage(data) {
@@ -87,5 +89,23 @@ class Chat {
         // Scroll to the bottom of the ChatContainer
         this.ChatContainer.scrollTop = this.ChatContainer.scrollHeight;
 
+    }
+
+    chatMessageDeleted(data) {
+        console.log("Chat Message Deleted:");
+        console.log(JSON.stringify(data, null, 2));
+
+        console.log("Deleting message with ID: " + data.targetMessageId);
+
+        let messageElement = document.getElementById(data.targetMessageId);
+        messageElement.remove();
+    }
+
+    chatCleared(data) {
+        console.log("Chat Cleared:");
+        console.log(JSON.stringify(data, null, 2));
+
+        console.log("Clearing ChatContainer");
+        this.ChatContainer.innerHTML = "";
     }
 }

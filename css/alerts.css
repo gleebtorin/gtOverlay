@@ -62,7 +62,7 @@ body {
 }
 
 .alert {
-    background: radial-gradient(circle, var(--brand-primary-light) 0%, var(--brand-primary-mid) 50%, var(--brand-primary-darkest) 100%);
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%, var(--brand-primary-dark) 40%, var(--brand-primary-mid) 50%, var(--brand-primary-dark) 60%, rgba(0,0,0,0) 100%);
     border-radius: 10px;
     border: 0px;
     color: var(--brand-primary-lightest);

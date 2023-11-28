@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Overlay</title>
+    <script src="./js/StreamerBotClient.js"></script>
+    <script src="./js/chat.js"></script>
+    <script>
+        // Connect for chat on page loaded
+        window.onload = function() {
+            let events = {
+                "Twitch": [
+                    "ChatMessage",
+                    "ChatMessageDeleted",
+                    "ChatCleared"
+                ]
+            };
+            StreamerBotClient = new StreamerBotClient(events);
+            chat = new Chat(StreamerBotClient, document.getElementById("chat-container"));
+        };
+    </script>
+    <link rel="stylesheet" href="./css/brand.css">
+    <link rel="stylesheet" href="./css/chat.css">
+</head>
+<body>
+    <!-- a container for chat that is aligned to the bottom-left -->
+    <div id="chat-container">
+    </div>
+</body>
+</html>

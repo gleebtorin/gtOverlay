@@ -1,0 +1,70 @@
+body {
+    overflow: hidden;
+    background: rgb(0, 127, 255);
+}
+
+/* id chat-container should be in the bottom left */
+#chat-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    color: white;
+}
+
+#chat-container > .chatMessage {
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    background-size: 50px auto !important;
+    margin: 0 0 2px 0;
+    padding: 2px;
+    color: white;
+    font-size: 18px;
+    font-family: "Lemon MILK Pro Regular", Arial, Helvetica, sans-serif;
+    text-shadow: 1px 1px black;
+    vertical-align: middle;
+}
+
+#chat-container > .chatMessage > .emote {
+    margin-top: -5px;
+    margin-bottom: -5px;
+    vertical-align: middle;
+}
+
+#chat-container > .chatFromViewer {
+    border: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+#chat-container > .chatFromVIP {
+    border-color: var(--brand-vip-mid);
+    background: linear-gradient(to right, var(--brand-vip-mid), rgba(255, 255, 255, 0)) no-repeat;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--vip-lightest);
+}
+
+#chat-container > .chatFromModerator {
+    border-color: var(--brand-moderation-mid);
+    background: linear-gradient(to right, var(--brand-moderation-mid), rgba(255, 255, 255, 0)) no-repeat;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--brand-moderation-lightest);
+}
+
+#chat-container > .chatFromBroadcaster {
+    border-color: var(--brand-primary-mid);
+    background: linear-gradient(to right, var(--brand-primary-mid), rgba(255, 255, 255, 0)) no-repeat;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--brand-primary-lightest);
+}
+
+#chat-container > .chatHighlighted {
+    border-color: var(--brand-secondary-mid);
+    background: linear-gradient(to right, var(--brand-secondary-mid), rgba(255, 255, 255, 0)) no-repeat;
+    background-color: var(--brand-secondary-light);
+    color: var(--brand-primary-darker);
+    text-shadow: 0px 0px 3px var(--brand-secondary-dark);
+    
+}

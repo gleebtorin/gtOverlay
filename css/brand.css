@@ -1,0 +1,52 @@
+:root {
+    --brand-primary-full: hsl(210, 100%, 50%);
+    --brand-primary-darkest: hsl(210, 48.9%, 6.25%);
+    --brand-primary-darker: hsl(210, 48.9%, 12.5%);
+    --brand-primary-dark: hsl(210, 48.9%, 25%);
+    --brand-primary-mid: hsl(210, 48.9%, 50%);
+    --brand-primary-light: hsl(210, 48.9%, 75%);
+    --brand-primary-lighter: hsl(210, 48.9%, 87.5%);
+    --brand-primary-lightest: hsl(210, 48.9%, 93.75%);
+
+
+    --brand-secondary-full: hsl(30, 100%, 50%);
+    --brand-secondary-darkest: hsl(30, 48.9%, 6.25%);
+    --brand-secondary-darker: hsl(30, 48.9%, 12.5%);
+    --brand-secondary-dark: hsl(30, 48.9%, 25%);
+    --brand-secondary-mid: hsl(30, 48.9%, 50%);
+    --brand-secondary-light: hsl(30, 48.9%, 75%);
+    --brand-secondary-lighter: hsl(30, 48.9%, 87.5%);
+    --brand-secondary-lightest: hsl(30, 48.9%, 93.75%);
+
+    --brand-vip-full: #FF007F;
+    --brand-vip-darkest: #4F001F;
+    --brand-vip-darker: #7F0033;
+    --brand-vip-dark: #BF0052;
+    --brand-vip-mid: #FF007F;
+    --brand-vip-light: #FF3399;
+    --brand-vip-lighter: #FF66B2;
+    --brand-vip-lightest: #FF99CC;
+
+    --brand-moderation-full: hsl(90, 100%, 50%);
+    --brand-moderation-darkest: hsl(90, 48.9%, 6.25%);
+    --brand-moderation-darker: hsl(90, 48.9%, 12.5%);
+    --brand-moderation-dark: hsl(90, 48.9%, 25%);
+    --brand-moderation-mid: hsl(90, 48.9%, 50%);
+    --brand-moderation-light: hsl(90, 48.9%, 75%);
+    --brand-moderation-lighter: hsl(90, 48.9%, 87.5%);
+    --brand-moderation-lightest: hsl(90, 48.9%, 93.75%);
+    
+    --brand-porble-full: hsl(272.7, 100%, 50%);
+    --brand-porble-darkest: hsl(272.7, 48.9%, 6.25%);
+    --brand-porble-darker: hsl(272.7, 48.9%, 12.5%);
+    --brand-porble-dark: hsl(272.7, 48.9%, 25%);
+    --brand-porble-mid: hsl(272.7, 48.9%, 50%);
+    --brand-porble-light: hsl(272.7, 48.9%, 75%);
+    --brand-porble-lighter: hsl(272.7, 48.9%, 87.5%);
+    --brand-porble-lightest: hsl(272.7, 48.9%, 93.75%);
+
+    --brand-porble-se-dark: #24182F;
+    --brand-porble-se-mid: #472F5C;
+    --brand-porble-se-light: #6A4689;
+    --brand-porble-se-lighter: #8D63B0;
+}

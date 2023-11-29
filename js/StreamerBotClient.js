@@ -90,21 +90,42 @@ class StreamerBotClient {
     parseMessage(message, emotes) {
         // Split the message into an array, based on emotes.startIndex and emotes.endIndex
 
+        console.log("Parsing message:");
+        console.log(message.toString());
+
         // Sort the emotes array by startIndex
         emotes.sort((a, b) => {
             return a.startIndex - b.startIndex;
         });
 
+        console.log(emotes);
+
         let splitMessage = [];
         let lastIndex = 0;
+        let twemojiHeckOffset = 0;
+
         emotes.forEach(emote => {
-            splitMessage.push(message.slice(lastIndex, emote.startIndex)); // Add the part of the message before the emote
-            lastIndex = emote.endIndex + 1;
+            // If the config for this emote type is disabled, skip it
+            if (!config.emoteProviders[emote.type].enabled) {
+                return;
+            }
+
+            splitMessage.push(message.slice(lastIndex, emote.startIndex + twemojiHeckOffset)); // Add the part of the message before the emote
+            lastIndex = emote.endIndex + twemojiHeckOffset + 1;
             if (emote.type == "CheerEmote") {
                 let cheerAmountText = document.createElement("span");
                 cheerAmountText.innerText = emote.bits;
                 cheerAmountText.style.color = emote.color;
                 splitMessage.push(emote.bits); // Add the emote bits
+            }
+
+            // Twemoji may have offset emote.name, so we need to account for that
+            if (twemojiHeckOffset > 0) {
+                emote.name = message.slice(emote.startIndex + twemojiHeckOffset, emote.endIndex + twemojiHeckOffset + 1);
+            }
+
+            if (emote.type === "Twemoji" && config.emojiTwemojiHack) {
+                twemojiHeckOffset++; // Twemoji is broken, so we need to offset the indexes by 1 every time we come across a twemoji
             }
 
         });
@@ -115,13 +136,50 @@ class StreamerBotClient {
         // Loop through the splitMessage array and append each part to the messageElement, followed by the emote image
         splitMessage.forEach((part, index) => {
             outputMessage.innerHTML += part;
-            if (emotes[index]) {
+
+            // If there's no emote at this index, skip it
+            if (!emotes[index]) {
+                return;
+            }
+
+            if (config.emoteProviders[emotes[index].type].showEmoteImage) {
                 let img = document.createElement("img");
-                let imageUrl = emotes[index].imageUrl.slice(0, -3) + "1.0";
-                img.src = imageUrl;
+                img.src = emotes[index].imageUrl;
                 img.title = emotes[index].name;
                 img.classList.add("emote");
+        
+                switch (emotes[index].type) {
+                    case "Twitch":
+                        // Get the smallest version of the emote
+                        img.src = img.src.slice(0, -3) + "1.0";
+                        break;
+                    case "BTTVChannel":
+                    case "BTTVGlobal":
+                        // Get the smallest version of the emote
+                        img.src = img.src.slice(0, -2) + "1x";
+                        break;
+                    case "FFZChannel":
+                    case "FFZGlobal":
+                        // Get the smallest version of the emote
+                        img.src = img.src.slice(0, -1) + "1";
+                        break;
+
+                    case "7TVChannel":
+                    case "7TVGlobal":
+                        // Get the smallest version of the emote
+                        img.src = img.src.replace(/(\d+)x\./, "1x.");
+                        break;
+
+                    case "Twemoji":
+                        break; 
+                    default:
+                        break;
+                }
+
                 outputMessage.appendChild(img);
+            } else {
+                // Display the emote name instead of the image
+                outputMessage.innerHTML += emotes[index].name;
             }
         });
 

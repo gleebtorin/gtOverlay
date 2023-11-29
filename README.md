@@ -41,15 +41,20 @@ This project has the following dependencies:
 
 ## Usage
 
-These overlays are not designed to be interactive when in active use on stream, other than their realtime display of information. Use the files in `css/` to customise the appearance of your overlays.
+These overlays are not designed to be interactive when in active use on stream, other than their realtime display of information. Use the files in `css/` to customise the appearance of your overlays. Use `js/config.js` to configure options such as how Emote providers are handled.
 
 ## Known Issues
 
 * Some debug options hide themselves only when it detects OBS as the current browser. You will need to remove or hide the debug options if you aren't using a browser that reports itself as OBS, such as Xsplit or Twitch Studio.
+* Twemoji implementation in Streamer.bot or something else upstream is incosistent, so it is disabled by default.
 
 ## Contributing
 
 If you'd like to contribute to this project, pull requests are very welcome. You are also welcome to submit feature suggestions and bug reports via GitHub.
+
+## Special Thanks
+
+Thanks to [TheAdoredOnes](https://twitch.tv/TheAdoredOnes) for helping me with the test data for `chatStylePreview.html`.
 
 ## License
 

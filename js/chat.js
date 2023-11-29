@@ -21,9 +21,6 @@ class Chat {
     }
 
     chatMessage(data) {
-        //console.log("Chat Message:");
-        //console.log(JSON.stringify(data, null, 2));
-
         let messageElement = document.createElement("div");
         // Construct the message for display
         // Array of badges
@@ -85,10 +82,7 @@ class Chat {
 
         // Check if ChatContainer is defined before appending the message
         if (this.ChatContainer) {
-            console.log("Appending message to ChatContainer");
             this.ChatContainer.appendChild(messageElement);
-        } else {
-            console.log("ChatContainer is not defined, not appending message");
         }
 
         // If there are more than 100 messages in the ChatContainer, remove the first one
@@ -102,27 +96,15 @@ class Chat {
     }
 
     chatMessageDeleted(data) {
-        console.log("Chat Message Deleted:");
-        console.log(JSON.stringify(data, null, 2));
-
-        console.log("Deleting message with ID: " + data.targetMessageId);
-
         let messageElement = document.getElementById(data.targetMessageId);
         messageElement.remove();
     }
 
     chatCleared(data) {
-        console.log("Chat Cleared:");
-        console.log(JSON.stringify(data, null, 2));
-
-        console.log("Clearing ChatContainer");
         this.ChatContainer.innerHTML = "";
     }
 
     userTimedOut(data) {
-        console.log("User Timed Out:");
-        console.log(JSON.stringify(data, null, 2));
-
         // Find all elements with the data-username attribute equal to the username of the user that was timed out
         let messages = document.querySelectorAll("[data-userId='" + data.target_user_id + "']");
         messages.forEach(message => {
@@ -131,9 +113,6 @@ class Chat {
     }
 
     userBanned(data) {
-        console.log("User Banned:");
-        console.log(JSON.stringify(data, null, 2));
-
         // Find all elements with the data-username attribute equal to the username of the user that was banned
         let messages = document.querySelectorAll("[data-userId='" + data.target_user_id + "']");
         messages.forEach(message => {

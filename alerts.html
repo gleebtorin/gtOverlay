@@ -11,19 +11,7 @@
         let alerts = null;
         // Connect for alerts on page loaded
         window.onload = function() {
-            events = {
-                "Twitch": [
-                    "Follow",
-                    "Cheer",
-                    "Raid",
-                    "Sub",
-                    "Resub",
-                    "GiftSub",
-                    "GiftBomb",
-                ]
-            };
-            StreamerBotClient = new StreamerBotClient(events);
-            alerts = new Alerts(StreamerBotClient);
+            alerts = new Alerts(document.getElementById("alerts"));
             // If the userAgent contains "OBS", we're probably in OBS. Hide the debug info
             if (navigator.userAgent.indexOf("OBS") !== -1) {
                 document.getElementById("debug").style.display = "none";

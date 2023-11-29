@@ -8,17 +8,7 @@
     <script>
         // Connect for chat on page loaded
         window.onload = function() {
-            let events = {
-                "Twitch": [
-                    "ChatMessage",
-                    "ChatMessageDeleted",
-                    "ChatCleared",
-                    "UserTimedOut",
-                    "UserBanned"
-                ]
-            };
-            StreamerBotClient = new StreamerBotClient(events);
-            chat = new Chat(StreamerBotClient, document.getElementById("chat-container"));
+            chat = new Chat(document.getElementById("chat-container"));
         };
     </script>
     <link rel="stylesheet" href="./css/brand.css">

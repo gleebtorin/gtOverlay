@@ -2,14 +2,22 @@ class Chat {
     StreamerBotClient;
     ChatContainer;
 
-    constructor(StreamerBotClient, ChatContainer) {
-        this.StreamerBotClient = StreamerBotClient;
+    constructor(ChatContainer) {
+        this.StreamerBotClient = new StreamerBotClient({
+            "Twitch": [
+                "ChatMessage",
+                "ChatMessageDeleted",
+                "ChatCleared",
+                "UserTimedOut",
+                "UserBanned"
+            ]
+        });
         this.ChatContainer = ChatContainer;
-        StreamerBotClient.on("Twitch.ChatMessage", (data) => this.chatMessage(data));
-        StreamerBotClient.on("Twitch.ChatMessageDeleted", (data) => this.chatMessageDeleted(data));
-        StreamerBotClient.on("Twitch.ChatCleared", (data) => this.chatCleared(data));
-        StreamerBotClient.on("Twitch.UserTimedOut", (data) => this.userTimedOut(data));
-        StreamerBotClient.on("Twitch.UserBanned", (data) => this.userBanned(data));
+        this.StreamerBotClient.on("Twitch.ChatMessage", (data) => this.chatMessage(data));
+        this.StreamerBotClient.on("Twitch.ChatMessageDeleted", (data) => this.chatMessageDeleted(data));
+        this.StreamerBotClient.on("Twitch.ChatCleared", (data) => this.chatCleared(data));
+        this.StreamerBotClient.on("Twitch.UserTimedOut", (data) => this.userTimedOut(data));
+        this.StreamerBotClient.on("Twitch.UserBanned", (data) => this.userBanned(data));
     }
 
     chatMessage(data) {

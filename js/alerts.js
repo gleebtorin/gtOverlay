@@ -1,18 +1,30 @@
 class Alerts {
-    StreamerBotClient; // The StreamerBotClient instance
+    streamerBotClient; // The StreamerBotClient instance
+    alertsElement; // The alerts container
     pendingAlerts = []; // The alerts waiting to be displayed
     currentAlert = null; // The alert currently being displayed
     alertRunning = false; // Whether an alert is currently being displayed
 
-    constructor(StreamerBotClient) {
-        this.StreamerBotClient = StreamerBotClient;
-        StreamerBotClient.on("Twitch.Follow", (data) => this.handleFollow(data));
-        StreamerBotClient.on("Twitch.Cheer", (data) => this.handleCheer(data));
-        StreamerBotClient.on("Twitch.Raid", (data) => this.handleRaid(data));
-        StreamerBotClient.on("Twitch.Sub", (data) => this.handleSub(data));
-        StreamerBotClient.on("Twitch.Resub", (data) => this.handleResub(data));
-        StreamerBotClient.on("Twitch.GiftSub", (data) => this.handleGiftSub(data));
-        StreamerBotClient.on("Twitch.GiftBomb", (data) => this.handleGiftBomb(data));
+    constructor(AlertsElement) {
+        this.streamerBotClient = new StreamerBotClient({
+            "Twitch": [
+                "Follow",
+                "Cheer",
+                "Raid",
+                "Sub",
+                "ReSub",
+                "GiftSub",
+                "GiftBomb"
+            ]
+        });
+        this.alertsElement = AlertsElement;
+        this.streamerBotClient.on("Twitch.Follow", (data) => this.handleFollow(data));
+        this.streamerBotClient.on("Twitch.Cheer", (data) => this.handleCheer(data));
+        this.streamerBotClient.on("Twitch.Raid", (data) => this.handleRaid(data));
+        this.streamerBotClient.on("Twitch.Sub", (data) => this.handleSub(data));
+        this.streamerBotClient.on("Twitch.ReSub", (data) => this.handleResub(data));
+        this.streamerBotClient.on("Twitch.GiftSub", (data) => this.handleGiftSub(data));
+        this.streamerBotClient.on("Twitch.GiftBomb", (data) => this.handleGiftBomb(data));
     }
 
     queueAlert(type, headline, message, duration = 5000) {
@@ -36,7 +48,7 @@ class Alerts {
         alert.classList.add("alert-" + type);
         alert.innerHTML = `<h1>${headline}</h1><p>${message}</p>`;
         this.currentAlert = alert;
-        document.getElementById("alerts").appendChild(alert);
+        this.alertsElement.appendChild(alert);
         setTimeout(() => {
             this.endAlert();
         }, duration-1000);
@@ -68,7 +80,7 @@ class Alerts {
         console.log(JSON.stringify(data, null, 2));
 
         let headline = "New Follower!";
-        let message = `${data.displayName} has followed!`;
+        let message = `${data.user_name} has followed!`;
         this.queueAlert("follow", headline, message);
     }
 
@@ -76,9 +88,13 @@ class Alerts {
         console.log("Cheer:");
         console.log(JSON.stringify(data, null, 2));
 
-        let headline = `${data.message.displayName} has cheered ${data.message.bits} bits!`;
-        let message = this.StreamerBotClient.parseMessageInData(data).innerHTML;
-        console.log(this.StreamerBotClient.parseMessageInData(data).innerHTML);
+        let headline = `${data.user_name} has cheered ${data.bits} bits!`;
+        let message = data.message;
+
+        if (data.is_anonymous) {
+            headline = `Anonymous has cheered ${data.message.bits} bits!`;
+        }
+
         this.queueAlert("cheer", headline, message);
     }
 
@@ -86,8 +102,8 @@ class Alerts {
         console.log("Raid:");
         console.log(JSON.stringify(data, null, 2));
 
-        let headline = `${data.displayName} is raiding!`;
-        let message = `Hello to ${data.viewerCount} raiders!`;
+        let headline = `${data.from_broadcaster_user_name} is raiding!`;
+        let message = `Hello to ${data.viewers} raiders!`;
         this.queueAlert("raid", headline, message);
     }
 
@@ -95,9 +111,13 @@ class Alerts {
         console.log("Sub:");
         console.log(JSON.stringify(data, null, 2));
 
-        let tierNames = ["Prime", "Tier 1", "Tier 2", "Tier 3"];
+        let tierNames = {
+            "1000": "",
+            "2000": "Tier 2",
+            "3000": "Tier 3"
+        };
 
-        let headline = `New ${tierNames[data.subTier]} Sub: ${data.displayName}!`;
+        let headline = `New ${tierNames[data.tier]} Sub: ${data.user_name}!`;
         let message = `Welcome to The Crate!`;
 
         // If data.message is not "", replace the message
@@ -112,16 +132,20 @@ class Alerts {
         console.log("Resub:");
         console.log(JSON.stringify(data, null, 2));
 
-        let tierNames = ["Prime", "Tier 1", "Tier 2", "Tier 3"];
+        let tierNames = {
+            "1000": "",
+            "2000": "Tier 2",
+            "3000": "Tier 3"
+        };
 
-        let headline = `${tierNames[data.subTier]} Resub: ${data.displayName} for ${data.cumulativeMonths} months!`;
+        let headline = `${tierNames[data.tier]} Resub: ${data.user_name} for ${data.cumulative_months} months!`;
         let message = `Welcome back to The Crate!`;
 
         // If data.message is not "", replace the message
         if (data.message) {
-            message = data.message;
-        } else if ((data.streakMonths) > 1 && (data.shareStreak)) {
-            message = `That's ${data.cumulativeMonths} months in a row!`;
+            message = data.message.text;
+        } else if (data.streak_months) {
+            message = `That's ${data.streak_months} months in a row!`;
         }
 
         this.queueAlert("resub", headline, message);
@@ -135,18 +159,9 @@ class Alerts {
             return; // Don't show alerts for sub bombs, they're handled by handleSubBomb
         }
 
-        let headline = `${data.displayName} has gifted a sub to ${data.recipientDisplayName}!`;
-        let message = `Thanks for your generosity!`;
+        let headline = `${data.user_name} received a gift sub!`;
+        let message = `Welcome to The Crate`;
 
-        if (data.isAnonymous) {
-            headline = `Who gifted a sub to ${data.recipientDisplayName}?`;
-            message = `Thanks, kind stranger!`
-        }
-
-        if (data.totalSubsGifted > 1) {
-            message = `That's ${data.totalSubsGifted} months gifted in total!`;
-        }
-        
         this.queueAlert("giftsub", headline, message);
     }
 
@@ -154,16 +169,16 @@ class Alerts {
         console.log("Sub Bomb:");
         console.log(JSON.stringify(data, null, 2));
 
-        let headline = `${data.displayName} has gifted ${data.gifts} subs!`;
+        let headline = `${data.user_name} has gifted ${data.total} subs!`;
         let message = `Thanks for your generosity!`;
 
-        if (data.isAnonymous) {
-            headline = `Who gifted ${data.gifts} subs?`;
+        if (data.is_anonymous) {
+            headline = `Who gifted ${data.total} subs?`;
             message = `Thanks, kind stranger!`
         }
 
-        if (data.totalSubsGifted > 1) {
-            message = `That's ${data.totalGifts} months gifted in total!`;
+        if (data.cumulative_total > 1) {
+            message = `That's ${data.cumulative_total} months gifted in total!`;
         }
         
         this.queueAlert("subbomb", headline, message);

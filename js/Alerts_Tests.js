@@ -1,148 +1,107 @@
 function testFollowAlert() {
-    // Generate a random name for the test user
-    let randomName = "TestUser" + Math.floor(Math.random() * 100000);
-
     // Call Alerts.handleFollow with a fake data object
     alerts.handleFollow({
-        "userId": 0,
-        "userName": randomName,
-        "displayName": randomName+"Display",
-        "isTest": true
+        "user_id": "1234",
+        "user_login": "cool_user",
+        "user_name": "Cool_User",
+        "followed_at": "2020-07-15T18:16:11.17106713Z"
     });
 }
 
 function testCheerAlert() {
-    // Generate a random name for the test user
-    let randomName = "TestUser" + Math.floor(Math.random() * 100000);
-
-    console.log("Test user name: " + randomName);
-
     // Call Alerts.handleCheer with a fake data object
     alerts.handleCheer({
-        "message": {
-            "msgId": "21605e47-16d2-4496-8001-509438e1b41c",
-            "userId": 0,
-            "username": "gleebtorin",
-            "role": 1, /* 1 - Viewer, 2 - VIP, 3 - Moderator, 4 - Broadcaster  */
-            "subscriber": true,
-            "displayName": "GleebTorin",
-            "channel": "gleebtorin",
-            "message": "cheer42 Text",
-            "isHighlighted": false,
-            "isMe": false,
-            "isCustomReward": false,
-            "isAnonymous": false,
-            "isReply": false,
-            "bits": 42,
-            "hasBits": true,
-            "emotes": [],
-            "cheerEmotes": [
-                {
-                    "bits": 42,
-                    "color": "#979797",
-                    "type": "CheerEmote",
-                    "name": "Cheer",
-                    "startIndex": 0,
-                    "endIndex": 6,
-                    "imageUrl": "<url to cheer emote>"
-                }
-            ]
-        }
+        "is_anonymous": false,
+        "user_id": "1234",          // null if is_anonymous=true
+        "user_login": "cool_user",  // null if is_anonymous=true
+        "user_name": "Cool_User",   // null if is_anonymous=true
+        "broadcaster_user_id": "1337",
+        "broadcaster_user_login": "cooler_user",
+        "broadcaster_user_name": "Cooler_User",
+        "message": "pogchamp",
+        "bits": 1000
     });
 }
 
 function testRaidAlert() {
-    // Generate a random name for the test user
-    let randomName = "TestUser" + Math.floor(Math.random() * 100000);
-
-    // Generate a random viewer count
-    let viewerCount = Math.floor(Math.random() * 1000);
-
     // Call Alerts.handleRaid with a fake data object
     alerts.handleRaid({
-        "viewerCount": viewerCount,
-        "profileImage": "test.png",
-        "userId": 0,
-        "userName": randomName,
-        "displayName": randomName+"Display",
-        "role": 1 /* 1 - Viewer, 2 - VIP, 3 - Moderator, 4 - Broadcaster  */
+        "from_broadcaster_user_id": "6060252",
+        "from_broadcaster_user_login": "shenious",
+        "from_broadcaster_user_name": "Shenious",
+        "to_broadcaster_user_id": "35865554",
+        "to_broadcaster_user_login": "gleebtorin",
+        "to_broadcaster_user_name": "GleebTorin",
+        "viewers": 8
     });
 }
 
 function testSubAlert() {
-    let randomName = "TestUser" + Math.floor(Math.random() * 100000);
-    let randomMessage = "Test message " + Math.floor(Math.random() * 100000);
-    let randomSubTier = Math.floor(Math.random() * 4);
-
+    // Call Alerts.handleSub with a fake data object
     alerts.handleSub({
-        "subTier": randomSubTier, /* 0 - Prime, 1 - Tier 1, 2 - Tier 2, 3 - Tier 3 */
-        "color": "#008D99",
-        "emotes": [],
-        "message": randomMessage,
-        "userId": 0,
-        "userName": randomName,
-        "displayName": randomName+"Display",
-        "role": 1 /* 1 - Viewer, 2 - VIP, 3 - Moderator, 4 - Broadcaster  */
+        "user_id": "1234",
+        "user_login": "cool_user",
+        "user_name": "Cool_User",
+        "broadcaster_user_id": "1337",
+        "broadcaster_user_login": "cooler_user",
+        "broadcaster_user_name": "Cooler_User",
+        "tier": "1000",
+        "is_gift": false
     });
 }
 
 function testResubAlert() {
-    let randomMonths = Math.floor(Math.random() * 24 + 1);
-    let randomMessage = "Test message " + Math.floor(Math.random() * 100000);
-    let randomSubTier = Math.floor(Math.random() * 4);
-
+    // Call Alerts.handleResub with a fake data object
     alerts.handleResub({
-        "cumulativeMonths": randomMonths,
-        "shareStreak": true,
-        "streakMonths": randomMonths,
-        "subTier": randomSubTier, /* 0 - Prime, 1 - Tier 1, 2 - Tier 2, 3 - Tier 3 */
-        "color": "#FF4500",
-        "emotes": randomMessage,
-        "message": "",
-        "userId": 162909743,
-        "userName": "admiralai",
-        "displayName": "AdmiralAI",
-        "role": 1 /* 1 - Viewer, 2 - VIP, 3 - Moderator, 4 - Broadcaster  */
-      });
+        "user_id": "1234",
+        "user_login": "cool_user",
+        "user_name": "Cool_User",
+        "broadcaster_user_id": "1337",
+        "broadcaster_user_login": "cooler_user",
+        "broadcaster_user_name": "Cooler_User",
+        "tier": "1000",
+        "message": {
+            "text": "Love the stream! FevziGG",
+            "emotes": [
+                {
+                    "begin": 23,
+                    "end": 30,
+                    "id": "302976485"
+                }
+            ]
+        },
+        "cumulative_months": 15,
+        "streak_months": 1, // null if not shared
+        "duration_months": 6
+    });
 }
 
 function testGiftSubAlert() {
-    let randomGifterName = "Gifter" + Math.floor(Math.random() * 100000);
-    let randomRecipientName = "Recipient" + Math.floor(Math.random() * 100000);
-    let randomSubTier = Math.floor(Math.random() * 4);
-
+    // Call Alerts.handleGiftSub with a fake data object
     alerts.handleGiftSub({
-        "isAnonymous": false,
-        "totalSubsGifted": 1,
-        "cumulativeMonths": 4,
-        "monthsGifted": 1,
-        "fromSubBomb": false,
-        "subBombCount": 1,
-        "recipientUserId": 1,
-        "recipientUsername": randomRecipientName,
-        "recipientDisplayName": randomRecipientName+"Display",
-        "subTier": randomSubTier, /* 0 - Prime, 1 - Tier 1, 2 - Tier 2, 3 - Tier 3 */
-        "userId": 0,
-        "userName": randomGifterName,
-        "displayName": randomGifterName+"Display",
-        "role": 1 /* 1 - Viewer, 2 - VIP, 3 - Moderator, 4 - Broadcaster  */
-      });
+        "user_id": "1234",
+        "user_login": "cool_user",
+        "user_name": "Cool_User",
+        "broadcaster_user_id": "1337",
+        "broadcaster_user_login": "cooler_user",
+        "broadcaster_user_name": "Cooler_User",
+        "tier": "1000",
+        "is_gift": true
+    });
 }
 
 function testGiftBombAlert() {
-    let randomGifterName = "Gifter" + Math.floor(Math.random() * 100000);
-    let randomRecipientName = "Recipient" + Math.floor(Math.random() * 100000);
-    let randomSubTier = Math.floor(Math.random() * 4);
-    let randomSubBombCount = Math.floor(Math.random() * 100);
-
+    // Call Alerts.handleGiftBomb with a fake data object
     alerts.handleGiftBomb({
-        "isAnonymous": false,
-        "gifts": randomSubBombCount,
-        "totalGifts": 0,
-        "subTier": randomSubTier, /* 0 - Prime, 1 - Tier 1, 2 - Tier 2, 3 - Tier 3 */
-        "userId": 0,
-        "userName": randomGifterName,
-        "displayName": randomGifterName+"Display",
-        "role": 1 /* 1 - Viewer, 2 - VIP, 3 - Moderator, 4 - Broadcaster  */
-      });
+        "user_id": "1234",
+        "user_login": "cool_user",
+        "user_name": "Cool_User",
+        "broadcaster_user_id": "1337",
+        "broadcaster_user_login": "cooler_user",
+        "broadcaster_user_name": "Cooler_User",
+        "total": 2,
+        "tier": "1000",
+        "cumulative_total": 284, //null if anonymous or not shared by the user
+        "is_anonymous": false
+    });
 }
